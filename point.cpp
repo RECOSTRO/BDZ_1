@@ -113,4 +113,31 @@ class Characteristic_hard{
     Characteristic_simple *data = nullptr;
     size_t current_size = 0;
     size_t capicity = 0;
+
+    public:
+
+        ~Characteristic_hard(){
+            delete[] data;
+        }
+
+        Characteristic_hard(){
+            data = new Characteristic_simple[10];
+            current_size = 0;
+            capicity = 10;
+        }
+
+        Characteristic_hard(std::string name, int value){
+            Characteristic_simple new_class(name, value);
+            data = new Characteristic_simple[1];
+            data[0] = new_class;
+            capicity = 1;
+            current_size = 1;
+        }
+
+        Characteristic_simple& search_by_name(std::string name){
+            for (int i = 0; i < current_size; i++){
+                if (data[i].get_name == name) return data[i];
+            }
+            throw std::out_of_range(std::format"{} isn't finding in sorted table", name);
+        }
 };
