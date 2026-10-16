@@ -1,54 +1,54 @@
-#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <ostream>
+#include <istream>
+#include <format>
+#include <algorithm>
+
 
 class Characteristic_simple{
-    std::string name;
+    std::string name = "Unnamed";
     int value = 1;
 
+    static void check_value_conditions(const std::string& name, int number){
+        if (number < 1 || number > 20){
+            throw std::invalid_argument(std::format("{} must be between 1 and 20", name));
+        }
+    }
+
     public:
-        std::string get_name(){
+        const std::string& get_name() const{
             return name;
         }
 
-        int get_value(){
+        int get_value() const{
             return value;
         }
 
-        void set_name(std::string name){
+        void set_name(const std::string& name){
             this->name = name;
         }
 
         void set_value(int value){
-            if (value < 1 || value > 20) {
-                throw std::invalid_argument("Value must be between 1 and 20");
-            }
+            check_value_conditions("Value", value);
             this->value = value;
         }
 
-        Characteristic_simple(){
-            name = "Indiana";
-            value = 1;
-        }
+        Characteristic_simple() = default;
 
-        Characteristic_simple(std::string name){
-            this->name = name;
-            value = 1;
-        }
-
-        Characteristic_simple(std::string name, int value){
-            if (value < 1 || value > 20) {
-                throw std::invalid_argument("Value must be between 1 and 20");
+        explicit Characteristic_simple(std::string name)
+            : name(name) {}
+        
+        explicit Characteristic_simple(std::string name, int value)
+            : name(name), value(value){
+                check_value_conditions("Value", value);
             }
-            this->name = name;
-            this->value = value;
-        }
 
-        bool check_difficulty(int cube = 1, int difficulty = 1){
-            if (cube < 1 || cube > 20){
-                throw std::invalid_argument("Cube is bigger 0 and less 21");
-            }
+        bool check_difficulty(int cube, int difficulty) const{
+            check_value_conditions("Cube", cube);
 
             if (difficulty < 1){
-                throw std::invalid_argument("difficulty is natural number");
+                throw std::invalid_argument("Difficulty is natural number");
             }
 
             if (cube == 1) return false;
@@ -61,31 +61,31 @@ class Characteristic_simple{
             return poison + cube >= difficulty;
         }
 
-        bool check_difficulty_advantage(int cube_1 = 1, int cube_2 = 1, int difficulty = 1){
-            if ((cube_1 < 1 || cube_1 > 20) || (cube_2 < 1 || cube_2 > 20)){
-                throw std::invalid_argument("Cube is bigger 0 and less 21");
-            }
-            int cube = cube_1 > cube_2 ? cube_1 : cube_2;
+        bool check_difficulty_advantage(int first_cube, int second_cube, int difficulty) const{
+            check_value_conditions("First_cube", first_cube);
+            check_value_conditions("Second_cube", second_cube);
+
+            int cube = std::max(first_cube, second_cube);
+
             return check_difficulty(cube, difficulty);
         }
 
-        bool check_difficulty_interference(int cube_1 = 1, int cube_2 = 1, int difficulty = 1){
-            if ((cube_1 < 1 || cube_1 > 20) || (cube_2 < 1 || cube_2 > 20)){
-                throw std::invalid_argument("Cube is bigger 0 and less 21");
-            }
-            int cube = cube_1 > cube_2 ? cube_2 : cube_1;
+        bool check_difficulty_interference(int first_cube, int second_cube, int difficulty) const{
+            check_value_conditions("First_cube", first_cube);
+            check_value_conditions("Second_cube", second_cube);
+
+            int cube = std::min(first_cube, second_cube);
+
             return check_difficulty(cube, difficulty);
         }
 
         Characteristic_simple& operator+=(int add_value){
-            if (add_value < 1 || add_value > 20){
-                throw std::invalid_argument("Add_value is less 21 and is bigger 1");
-            }
+            check_value_conditions("Add_value", add_value);
 
-            int value = this->value + add_value;
-            if (value > 20) value = 20;
+            int new_value = this->value + add_value;
+            if (new_value > 20) new_value = 20;
 
-            set_value(value);
+            set_value(new_value);
             return *this;
         }
 
@@ -98,7 +98,7 @@ class Characteristic_simple{
             std::string temp_name;
             int temp_value;
             if (is >> temp_name >> temp_value) {
-                if (temp_value < 1 || temp_value > 20) {
+                if (temp_value < 1 || temp_value > 20){
                     is.setstate(std::ios::failbit); // число вне границ [1, 20] — ставим ошибку потока
                 } else {
                     obj.name = temp_name;
@@ -107,4 +107,10 @@ class Characteristic_simple{
             }
             return is;
         }
+};
+
+class Characteristic_hard{
+    Characteristic_simple *data = nullptr;
+    size_t current_size = 0;
+    size_t capicity = 0;
 };
