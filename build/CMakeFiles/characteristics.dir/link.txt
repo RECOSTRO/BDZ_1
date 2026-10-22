@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcharacteristics.a CMakeFiles/characteristics.dir/lib/Characteristic_simple.cpp.o CMakeFiles/characteristics.dir/lib/Characteristic_hard.cpp.o
-/usr/bin/ranlib libcharacteristics.a
