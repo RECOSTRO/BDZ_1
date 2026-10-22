@@ -85,7 +85,7 @@ namespace {
         std::cout << "\nChoose your characteristic\n"
             "0) Exit\n"
             "1) Characteristic_simple\n"
-            "2) Characteristic_hard\n";
+            "2) Characteristic_hard" << std::endl;
     }
     
     void print_menu_simple(){
@@ -100,7 +100,7 @@ namespace {
             "8) Check difficulty with advantage\n"
             "9) Check difficulty with disadvantage\n"
             "10) Input characteristic (>>)\n"
-            "0) Back\n";
+            "0) Back" << std::endl;
     }
     
     void print_menu_hard(){
@@ -116,7 +116,7 @@ namespace {
             "9) Sort by name\n"
             "10) Find max among given names\n"
             "11) Input table (>>)\n"
-            "0) Back\n";
+            "0) Back" << std::endl;
     }
     
     void simple_menu(Characteristic_simple& c){
@@ -128,7 +128,7 @@ namespace {
             try {
                 switch (choice){
                     case 1:
-                        std::cout << c << " (modifier " << c.get_modifier() << ")\n";
+                        std::cout << c << std::endl;
                         break;
                     case 2:
                         c = Characteristic_simple(read_string("Name: "));
@@ -172,7 +172,7 @@ namespace {
                         std::cout << "No such item\n";
                 }
             } catch (const std::logic_error& error) {
-                std::cout << "Error: " << error.what() << '\n';
+                std::cout << "Error: " << error.what() << std::endl;
             }
         }
     }
@@ -204,13 +204,13 @@ namespace {
                         break;
                     case 6: {
                         const Characteristic_simple& found = table[read_string("Name: ")];
-                        std::cout << found << '\n';
+                        std::cout << found << std::endl;
                         break;
                     }
                     case 7: {
                         Characteristic_simple& found = table[read_string("Name: ")];
                         found += read_int("Add (1..20): ");
-                        std::cout << found << '\n';
+                        std::cout << found << std::endl;
                         break;
                     }
                     case 8: {
@@ -225,7 +225,7 @@ namespace {
                         break;
                     case 10: {
                         const std::vector<std::string> names = read_strings("Names separated by spaces: ");
-                        std::cout << "Max: " << table.search_max_in_array(names) << '\n';
+                        std::cout << "Max: " << table.search_max_in_array(names) << std::endl;
                         break;
                     }
                     case 11:
@@ -236,7 +236,7 @@ namespace {
                         std::cout << "No such item\n";
                 }
             } catch (const std::logic_error& error) {
-                std::cout << "Error: " << error.what() << '\n';
+                std::cout << "Error: " << error.what() << std::endl;
             }
         }
     }
@@ -253,9 +253,9 @@ namespace {
                 if (choice == 0) return;
                 if (choice == 1) simple_menu(simple);
                 else if (choice == 2) hard_menu(table, simple);
-                else std::cout << "No such item\n";
+                else std::cout << "No such item" << std::endl;
             }
         } catch (const InputClosed&) {
-            std::cout << "\nInput closed\n";
+            std::cout << "\nInput closed" << std::endl;
         }
 }
