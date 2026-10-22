@@ -4,22 +4,28 @@ project(Characteristics CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# ---------- статическая библиотека с классами ----------
+if (MSVC)
+    add_compile_options(/W4)
+else()
+    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow)
+endif()
+
+#--------- biblioteca of characteristic -----------
 add_library(characteristics STATIC
     lib/Characteristic_simple.cpp
     lib/Characteristic_hard.cpp
 )
 target_include_directories(characteristics PUBLIC lib)
 
-# ---------- консольное приложение (диалог) ----------
-# Раскомментируй, когда диалог будет готов
-# add_executable(dialog
-#     app/main.cpp
-#     app/app.cpp
-# )
-# target_link_libraries(dialog PRIVATE characteristics)
+#---------- application ---------
+add_executable(dialog
+    app/main.cpp
+    app/app.cpp
+)
+target_link_libraries(dialog PRIVATE characteristics)
 
-# ---------- модульные тесты ----------
+# ---------- tests --------
 enable_testing()
 add_subdirectory(tests)

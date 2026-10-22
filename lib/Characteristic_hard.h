@@ -27,8 +27,6 @@ class Characteristic_hard{
         Characteristic_hard();
         explicit Characteristic_hard(const std::vector<std::string>& names);
         Characteristic_hard(const std::string& name, int value);
-
-        // правило пяти
         ~Characteristic_hard();
         Characteristic_hard(const Characteristic_hard& other);
         Characteristic_hard& operator=(const Characteristic_hard& other);

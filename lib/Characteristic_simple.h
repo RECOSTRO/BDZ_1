@@ -6,15 +6,14 @@
 class Characteristic_simple{
     std::string name = "Unnamed";
     int value = 1;
-
     static bool is_in_range(int number);
-    static void check_value_conditions(const std::string& name, int number);
-    static void check_name(const std::string& name);
+    static void check_value_conditions(const std::string& what, int number);
+    static void check_name(const std::string& name_to_check);
 
     public:
         Characteristic_simple() = default;
-        explicit Characteristic_simple(const std::string& name);
-        explicit Characteristic_simple(const std::string& name, int value);
+        explicit Characteristic_simple(const std::string& new_name);
+        explicit Characteristic_simple(const std::string& new_name, int new_value);
 
         const std::string& get_name() const;
         int get_value() const;
